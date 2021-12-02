@@ -1,5 +1,7 @@
-# How to run?
+# How to run
 
--- Create server/.env and enter blockchain RPC client credentials. Example can be found in server/.env.default
--- npm run server
--- npm run dev
+
+- npm install
+- create server/.env and enter API information. Example can be found at server/.env.default
+- npm run server
+- npm run dev
