@@ -1,5 +1,5 @@
 import axios from './base';
 
-const convertToUsd = value => axios.get(`/convert?value=${value}`);
+const convertToUsd = value => axios.get(`/convert/${value}`);
 
-export default convertToUsd;
+export default { convertToUsd };
