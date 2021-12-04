@@ -1,7 +1,5 @@
 import { makeStyles } from '@material-ui/core';
-import { useQuery } from 'react-query';
-import blocksApi from '../../api/block';
-import TransactionList from './TransactionList';
+import Link from 'next/link';
 
 const useStyles = makeStyles({
   container: {
@@ -25,20 +23,22 @@ const useStyles = makeStyles({
   },
 });
 
-const LastBlockTransactions = () => {
+const TransactionList = ({ data }) => {
   const classes = useStyles();
-  const { data, isLoading } = useQuery(['lastBlock'], blocksApi.getLastBlock);
-
-  if (isLoading) {
-    return null;
-  }
 
   return (
-    <div className={classes.container}>
-      <h3>Transactions in last block</h3>
-      <TransactionList data={data.tx} />
+    <div className={classes.txContainer}>
+      {data.map((item, index) => (
+        <Link
+          href={`/transaction/${item}`}
+          className={classes.link}
+          key={index}
+        >
+          <span className={classes.transaction}>{item}</span>
+        </Link>
+      ))}
     </div>
   );
 };
 
-export default LastBlockTransactions;
+export default TransactionList;

@@ -1,22 +1,26 @@
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import blockApi from '../../api/block';
-import Layout from '../../layout/Layout';
+import NotFound from '../../components/NotFound';
+import BlockInfo from '../../features/block/BlockInfo';
 
 const Block = ({}) => {
   const { query } = useRouter();
   const { blockIndex } = query;
-  const { data, isLoading } = useQuery(
+  const { data, isError } = useQuery(
     ['block', blockIndex],
     () => blockApi.getBlock(blockIndex),
     { enabled: !!blockIndex },
   );
-  console.log(data);
 
-  return (
-    <Layout>
-      <div>{blockIndex}</div>
-    </Layout>
-  );
+  if (isError) {
+    return <NotFound />;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  return <BlockInfo data={data} />;
 };
 export default Block;

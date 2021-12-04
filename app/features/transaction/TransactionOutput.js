@@ -32,24 +32,30 @@ const useStyles = makeStyles({
 
 const TransactionOutput = ({ data, position }) => {
   const classes = useStyles();
-  const { data: valueUsd } = useQuery(['convert', data.value], () =>
-    convertApi.convertToUsd(data.value),
+  const { data: valueUsd } = useQuery(
+    ['convert', data.value],
+    () => convertApi.convertToUsd(data.value),
+    { enabled: !!data.value },
   );
 
   return (
     <div className={classes.container}>
       <h3>Output {position}</h3>
       <div className={classes.outputInfo}>
-        <div className={classes.info}>
-          <span className={classes.infoKey}>Value (BTC)</span>
-          <span className={classes.infoValue}>{data.value}</span>
-        </div>
-        <div className={classes.info}>
-          <span className={classes.infoKey}>Value (USD)</span>
-          <span className={classes.infoValue}>
-            {valueUsd?.toFixed(2) || 'loading...'}
-          </span>
-        </div>
+        {!!data.value && (
+          <>
+            <div className={classes.info}>
+              <span className={classes.infoKey}>Value (BTC)</span>
+              <span className={classes.infoValue}>{data.value}</span>
+            </div>
+            <div className={classes.info}>
+              <span className={classes.infoKey}>Value (USD)</span>
+              <span className={classes.infoValue}>
+                {valueUsd?.toFixed(2) || 'loading...'}
+              </span>
+            </div>
+          </>
+        )}
         {data.scriptPubKey.addresses && (
           <div className={classes.info}>
             <span className={classes.infoKey}>Address</span>
