@@ -15,13 +15,10 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'column',
   },
-  block: {
-    marginTop: 8,
+  link: {
     '&:hover': {
       cursor: 'pointer',
     },
-    paddingBottom: 2,
-    borderBottom: '1px solid lightgrey',
   },
   info: {
     display: 'flex',
@@ -42,15 +39,7 @@ const useStyles = makeStyles({
   },
 });
 
-const getBlocks = (height, x = 10) => {
-  const blocks = [];
-  for (let i = height - x; i < height + 1; i++) {
-    blocks.push(i);
-  }
-  return blocks.reverse();
-};
-
-const LastBlocks = () => {
+const LastBlock = () => {
   const classes = useStyles();
   const { data, isLoading } = useQuery(['lastBlock'], blocksApi.getLastBlock);
 
@@ -68,23 +57,17 @@ const LastBlocks = () => {
         </div>
         <div className={classes.info}>
           <div className={classes.infoKey}>Hash</div>
-          <div className={classes.infoValue}>{data.hash}</div>
+          <Link href={`block/${data.hash}`} className={classes.link}>
+            {data.hash}
+          </Link>
         </div>
         <div className={classes.info}>
           <div className={classes.infoKey}>Transactions count</div>
           <div className={classes.infoValue}>{data.nTx}</div>
         </div>
       </div>
-      <h3>Last 10 blocks</h3>
-      <div className={classes.blocksContainer}>
-        {getBlocks(data.height).map(item => (
-          <Link href={`/block/${item}`} key={item}>
-            <span className={classes.block}>{item}</span>
-          </Link>
-        ))}
-      </div>
     </div>
   );
 };
 
-export default LastBlocks;
+export default LastBlock;

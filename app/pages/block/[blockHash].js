@@ -4,13 +4,13 @@ import blockApi from '../../api/block';
 import NotFound from '../../components/NotFound';
 import BlockInfo from '../../features/block/BlockInfo';
 
-const Block = ({}) => {
+const Block = () => {
   const { query } = useRouter();
-  const { blockIndex } = query;
+  const { blockHash } = query;
   const { data, isError } = useQuery(
-    ['block', blockIndex],
-    () => blockApi.getBlock(blockIndex),
-    { enabled: !!blockIndex },
+    ['block', blockHash],
+    () => blockApi.getBlock(blockHash),
+    { enabled: !!blockHash },
   );
 
   if (isError) {

@@ -6,7 +6,7 @@ const port = 4000;
 const client = require("./client");
 var cors = require("cors");
 
-const { getTransaction, getBlock, getLastBlock } = require("./utils");
+const { getTransaction, getBlockByHash, getLastBlock } = require("./utils");
 const { convertToUsd } = require("./coinmarketcap");
 
 app.use(express.json());
@@ -67,13 +67,13 @@ app.get("/transaction/:txid", async (req, res) => {
   }
 });
 
-app.get("/block/:blockIndex", async (req, res) => {
+app.get("/block/:blockHash", async (req, res) => {
   try {
-    const { blockIndex } = req.params;
-    if (!blockIndex) {
+    const { blockHash } = req.params;
+    if (!blockHash) {
       return res.status(404).send("Not found");
     }
-    const block = await getBlock(parseInt(blockIndex));
+    const block = await getBlockByHash(blockHash);
     return res.json(block);
   } catch {
     return res.status(404).send("Not found");

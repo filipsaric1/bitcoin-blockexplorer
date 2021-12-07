@@ -6,6 +6,12 @@ const getBlock = async (blockNum) => {
   return blockInfo;
 };
 
+const getBlockByHash = async (blockHash) => {
+  const blockInfo = await client.getBlock(blockHash);
+  const blockStats = await client.getBlockStats(blockHash);
+  return { ...blockInfo, ...blockStats };
+};
+
 const getTransactionFee = async (transaction) => {
   const outputSum = transaction.vout.reduce(
     (prev, { value }) => prev + value,
@@ -58,4 +64,5 @@ module.exports = {
   getTransaction,
   getBlock,
   getLastBlock,
+  getBlockByHash,
 };

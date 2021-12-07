@@ -1,4 +1,4 @@
-import LastBlocks from '../features/block/LastBlocks';
+import LastBlock from '../features/block/LastBlock';
 import LastBlockTransactions from '../features/transaction/LastBlockTransactions';
 import { makeStyles } from '@material-ui/core';
 
@@ -12,7 +12,7 @@ const Home = () => {
   const { container } = useStyles();
   return (
     <div className={container}>
-      <LastBlocks />
+      <LastBlock />
       <LastBlockTransactions />
     </div>
   );
