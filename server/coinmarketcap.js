@@ -7,7 +7,7 @@ const requestOptions = {
   },
 };
 
-const convertToUsd = async (value = 10) => {
+const convertToUsd = async (value) => {
   const data = await axios
     .get(
       `https://pro-api.coinmarketcap.com/v1/tools/price-conversion?amount=${value}&symbol=BTC&convert=USD`,

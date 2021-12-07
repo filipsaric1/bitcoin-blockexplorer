@@ -23,6 +23,23 @@ const useStyles = makeStyles({
     paddingBottom: 2,
     borderBottom: '1px solid lightgrey',
   },
+  info: {
+    display: 'flex',
+    borderBottom: '1px solid lightgrey',
+    justifyContent: 'space-between',
+    padding: 10,
+  },
+  blockDetails: {
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  infoKey: {
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  infoValue: {
+    fontSize: 16,
+  },
 });
 
 const getBlocks = (height, x = 10) => {
@@ -43,7 +60,22 @@ const LastBlocks = () => {
 
   return (
     <div className={classes.container}>
-      <h3>Last blocks</h3>
+      <h3>Last block info</h3>
+      <div className={classes.blocksContainer}>
+        <div className={classes.info}>
+          <div className={classes.infoKey}>Height</div>
+          <div className={classes.infoValue}>{data.height}</div>
+        </div>
+        <div className={classes.info}>
+          <div className={classes.infoKey}>Hash</div>
+          <div className={classes.infoValue}>{data.hash}</div>
+        </div>
+        <div className={classes.info}>
+          <div className={classes.infoKey}>Transactions count</div>
+          <div className={classes.infoValue}>{data.nTx}</div>
+        </div>
+      </div>
+      <h3>Last 10 blocks</h3>
       <div className={classes.blocksContainer}>
         {getBlocks(data.height).map(item => (
           <Link href={`/block/${item}`} key={item}>
