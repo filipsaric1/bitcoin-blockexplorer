@@ -40,7 +40,12 @@ const getTransactionFee = async (transaction) => {
 const getTransaction = async (txid) => {
   const transactionRaw = await client.getRawTransaction(txid);
   const transactionInfo = await client.decodeRawTransaction(transactionRaw);
-  const fee = await getTransactionFee(transactionInfo);
+  const isCoinbaseTransaction = transactionInfo.vin.some(
+    (input) => input.coinbase
+  );
+  const fee = isCoinbaseTransaction
+    ? null
+    : await getTransactionFee(transactionInfo);
   const outputsSum = transactionInfo.vout.reduce(
     (prev, { value }) => prev + value,
     0
@@ -50,6 +55,7 @@ const getTransaction = async (txid) => {
     fee,
     outputsSum,
     inputsSum: outputsSum + fee,
+    isCoinbaseTransaction,
   };
 };
 

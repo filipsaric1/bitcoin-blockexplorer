@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core';
 import TransactionList from '../transaction/TransactionList';
+import Link from 'next/link';
 
 const useStyles = makeStyles({
   container: {
@@ -38,8 +39,23 @@ const BlockInfo = ({ data }) => {
           <span className={classes.infoValue}>{data.hash}</span>
         </div>
         <div className={classes.info}>
+          <span className={classes.infoKey}>Previous block hash</span>
+          <span className={classes.infoValue}>
+            <Link
+              href={`/block/${data.previousblockhash}`}
+              className={classes.link}
+            >
+              {data.hash}
+            </Link>
+          </span>
+        </div>
+        <div className={classes.info}>
           <span className={classes.infoKey}>Height</span>
           <span className={classes.infoValue}>{data.height}</span>
+        </div>
+        <div className={classes.info}>
+          <span className={classes.infoKey}>Merkle root</span>
+          <span className={classes.infoValue}>{data.merkleroot}</span>
         </div>
         <div className={classes.info}>
           <span className={classes.infoKey}>Nonce</span>

@@ -9,7 +9,7 @@ const useStyles = makeStyles({
   },
 });
 
-const TransactionInputs = ({ data }) => {
+const TransactionInputs = ({ data, isCoinbaseTransaction }) => {
   const classes = useStyles();
 
   if (!data) {
@@ -21,7 +21,12 @@ const TransactionInputs = ({ data }) => {
       <h2>Inputs</h2>
       <div className={classes.transactionDetails}>
         {data.map((item, index) => (
-          <TransactionInput data={item} key={index} position={index + 1} />
+          <TransactionInput
+            isCoinbaseTransaction={isCoinbaseTransaction}
+            data={item}
+            key={index}
+            position={index + 1}
+          />
         ))}
       </div>
     </div>

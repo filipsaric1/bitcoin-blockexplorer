@@ -31,8 +31,10 @@ const useStyles = makeStyles({
 
 const Transaction = ({ data }) => {
   const classes = useStyles();
-  const { data: feeUsd } = useQuery(['convertFee', data.fee], () =>
-    convertApi.convertToUsd(data.fee),
+  const { data: feeUsd } = useQuery(
+    ['convertFee', data.fee],
+    () => convertApi.convertToUsd(data.fee),
+    { enabled: !data.isCoinbaseTransaction },
   );
 
   const { data: outputsUsd } = useQuery(
@@ -56,16 +58,20 @@ const Transaction = ({ data }) => {
           <span className={classes.infoKey}>Size</span>
           <span className={classes.infoValue}>{data.size} bytes</span>
         </div>
-        <div className={classes.info}>
-          <span className={classes.infoKey}>Fee (BTC)</span>
-          <span className={classes.infoValue}>{data.fee}</span>
-        </div>
-        <div className={classes.info}>
-          <span className={classes.infoKey}>Fee (USD)</span>
-          <span className={classes.infoValue}>
-            {feeUsd?.toFixed(2) || 'loading...'}
-          </span>
-        </div>
+        {!data.isCoinbaseTransaction ? (
+          <>
+            <div className={classes.info}>
+              <span className={classes.infoKey}>Fee (BTC)</span>
+              <span className={classes.infoValue}>{data.fee}</span>
+            </div>
+            <div className={classes.info}>
+              <span className={classes.infoKey}>Fee (USD)</span>
+              <span className={classes.infoValue}>
+                {feeUsd?.toFixed(2) || 'loading...'}
+              </span>
+            </div>{' '}
+          </>
+        ) : null}
         <div className={classes.info}>
           <span className={classes.infoKey}>Total output (BTC)</span>
           <span className={classes.infoValue}>{data.outputsSum}</span>
@@ -89,7 +95,10 @@ const Transaction = ({ data }) => {
           </span>
         </div>
       </div>
-      <TransactionInputs data={data.vin} />
+      <TransactionInputs
+        data={data.vin}
+        isCoinbaseTransaction={data.isCoinbaseTransaction}
+      />
       <TransactionOutputs data={data.vout} />
     </div>
   );

@@ -69,7 +69,7 @@ const HeaderSearch = () => {
           onChange={handleChange}
         >
           {SEARCH_OPTIONS.map(({ value, label }) => (
-            <MenuItem className={classes.item} value={value}>
+            <MenuItem className={classes.item} value={value} key={value}>
               {label}{' '}
             </MenuItem>
           ))}

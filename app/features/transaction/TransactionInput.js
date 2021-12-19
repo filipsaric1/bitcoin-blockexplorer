@@ -29,23 +29,29 @@ const useStyles = makeStyles({
   },
 });
 
-const TransactionInput = ({ data, position }) => {
+const TransactionInput = ({ data, position, isCoinbaseTransaction }) => {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <h3>Input {position}</h3>
       <div className={classes.inputInfo}>
-        <div className={classes.info}>
-          <span className={classes.infoKey}>Transaction</span>
-          <Link href={`/transaction/${data.txid}`}>
-            <span className={classes.infoValue}>{data.txid}</span>
-          </Link>
-        </div>
+        {!isCoinbaseTransaction && (
+          <div className={classes.info}>
+            <span className={classes.infoKey}>Transaction</span>
+            <Link href={`/transaction/${data.txid}`}>
+              <span className={classes.infoValue}>{data.txid}</span>
+            </Link>
+          </div>
+        )}
 
         <div className={classes.info}>
-          <span className={classes.infoKey}>ScriptSig</span>
-          <span className={classes.infoValue}>{data.scriptSig.asm}</span>
+          <span className={classes.infoKey}>
+            {isCoinbaseTransaction ? 'Coinbase' : 'ScriptSig'}
+          </span>
+          <span className={classes.infoValue}>
+            {isCoinbaseTransaction ? data.coinbase : data.scriptSig.asm}
+          </span>
         </div>
       </div>
     </div>
